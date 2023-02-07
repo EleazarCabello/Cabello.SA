@@ -14,10 +14,10 @@
 
     <div id="caja"> </div>
     <script>
-        fetch('https://dogapi.dog/api/v2/breeds')
+        fetch('https://pokeapi.co/api/v2/pokemon')
             .then(respuesta=>respuesta.json())
                 .then(function(dato){
-                    console.log(dato.data);
+                    console.log(dato);
                 
                     dato.data.forEach(elemento => {
                          let opcion = document.createElement('option');
