@@ -1,40 +1,30 @@
 const express = require('express');
-const cors = require('cors');
+const mysql = require('mysql2/promise')
 const app = express();
-const morgan = require('morgan');
-const fs = require('fs')
-const path = require('path')
-
-
 
 app.use(express.json())
 app.use(express.text())
-app.use(cors())
-app.use(morgan('tiny'))
 
+app.get('/id/',async(req,res)=>{
+  const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
+  const [rows, fields] = await connection.execute('SELECT * FROM mundo');
 
-
-
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-app.use(morgan('combined', { stream: accessLogStream }))
-
-
-
-app.get('/alumnos/:carrera',(req,res)=>{
-    //console.log(req.params.carrera)
-    res.jsonp({alumnos:"Alumnos de la carrera de "+req.params.carrera})
-    //res.json({alumnos:"Alumnos de la carrera de "+req.params.carrera})
+  res.json(rows);
 })
 
-app.get('/maestros',(req,res)=>{
-     //console.log(req.params.control)
-    res.json({maestro:"Informacion de maestro "+req.query.control})
+app.get('/id/:id',async(req,res)=>{
+
+    const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
+    const [rows, fields] = await connection.execute('SELECT * FROM mundo WHERE id = ?',[req.params.id]);
+
+    if(rows.length == 0){
+        res.json({registros:"No se encontro usuario"});
+    }else{
+        res.json(rows);
+    }
+  
 })
 
-app.get('/administrativos',(req,res)=>{
-    //console.log(req.body.nombre)
-   res.json({admin:"Informacion personal administrativos "+req.body.nombre})
-})
 
 app.use((req,res)=>{
     res.status(404).json({estado:"Pagina no encontrada"})
