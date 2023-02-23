@@ -8,12 +8,12 @@ const path = require('path');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  database: 'test'
+  database: 'world'
 });
 
 // simple query
 connection.query(
-  'SELECT * FROM `table` WHERE `name` = "Page" AND `age` > 45',
+  'SELECT * FROM mundo',
   function(err, results, fields) {
     if(err){
         console.table("Ocurrio un error"+err.sqlMessage);
