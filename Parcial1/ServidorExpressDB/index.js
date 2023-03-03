@@ -31,7 +31,7 @@ app.post('/id',async(req,res)=>{
 
     
     if(rows.affectedRows == 1){
-        res.json({status:"Insercion realizada con exito"});
+        res.status(200).send("Insercion realizada con exito");
     }
 })
 
@@ -54,7 +54,7 @@ app.patch('/id/:id',async(req,res)=>{
 
     //res.json(rows)
     if(rows.affectedRows == 1){
-        res.json({status:"Registro actualizado"});
+        res.status(200).send("UPDATE realizada con exito");
     }
 })
 
