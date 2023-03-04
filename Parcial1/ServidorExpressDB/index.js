@@ -4,8 +4,12 @@ const app = express();
 
 app.use(express.json())
 app.use(express.text())
+const cors = require('cors')
 
-app.get('/id/',async(req,res)=>{
+ 
+app.use(cors())
+
+app.get('/usuario/',async(req,res)=>{
   const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
   const [rows, fields] = await connection.execute('SELECT * FROM mundo');
 

@@ -3,6 +3,7 @@ const readStream = fs.createReadStream('./Parcial1/Eventos/EventoLorem/Lorem.txt
 
 readStream.on('data', (chunk) => {
   console.log(`Received ${chunk.length} bytes of data.`);
+  console.log(chunk.toString());
 });
 
 readStream.on('end', () => {
