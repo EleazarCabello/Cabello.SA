@@ -1,12 +1,10 @@
 const express = require('express');
 const mysql = require('mysql2/promise')
 const app = express();
+const cors = require('cors')
 
 app.use(express.json())
 app.use(express.text())
-const cors = require('cors')
-
- 
 app.use(cors())
 
 app.get('/usuario/',async(req,res)=>{
