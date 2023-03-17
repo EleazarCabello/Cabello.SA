@@ -17,10 +17,10 @@ app.use(function(req,res,next){
         }else{
             res.status(401).json({error:"Usuario no Autorizado"})
         }
-    }
-    
-    
+    }  
 })
+
+
 
 app.use(empleado.router);
 
