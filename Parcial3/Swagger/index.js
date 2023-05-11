@@ -6,12 +6,25 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const path = require('path');
 const fs = require('fs');
+const { SwaggerTheme } = require('swagger-themes');
+const redoc = require('redoc-express');
+
+//Thema swagger json
+const theme = new SwaggerTheme('v3');
+const options = {
+    explorer: true,
+    customCss: theme.getBuffer('dark')
+  };
+  
 
 let ContenidoReadme = fs.readFileSync(path.join(__dirname)+'/README.md',{encoding:'utf8',flag:'r'})
 let apidef_string = fs.readFileSync(path.join(__dirname)+'/APIdef.json',{encoding:'utf8',flag:'r'})
 let apidef_objeto = JSON.parse(apidef_string)
 apidef_objeto.info.description=ContenidoReadme;
 //console.log(ContenidoReadme)
+
+let redocTheme_string = fs.readFileSync(path.join(__dirname)+'/APIdef.json',{encoding:'utf8',flag:'r'})
+let redocTheme_objeto = JSON.parse(apidef_string)
 
 app.use(express.json())
 app.use(express.text())
@@ -183,17 +196,32 @@ app.patch('/id/:id',async(req,res)=>{
     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
     const [rows, fields] = await connection.execute(`UPDATE mundo SET Usuario = '${req.body.Usuario}', Edad = ${req.body.Edad} WHERE Id = ? `,[req.params.id]);
 
-    //res.json(rows)
+
     if(rows.affectedRows == 1){
         res.status(200).send("UPDATE realizada con exito");
     }
 })
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs));
+app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs,options));
 app.get("/docs.json",(req,res)=>{
     res.json(swaggerDocs);
 })
+
+app.get(
+    '/redocs',
+    redoc({
+      title: 'API Docs',
+      specUrl: '/docs.json',
+      nonce: '', // <= it is optional,we can omit this key and value
+      // we are now start supporting the redocOptions object
+      // you can omit the options object if you don't need it
+      // https://redocly.com/docs/api-reference-docs/configuration/functionality/
+      redocOptions: {
+        theme: redocTheme_objeto
+      }
+    })
+  );
 
 app.use((req,res)=>{
     res.status(404).json({estado:"Pagina no encontrada"})
