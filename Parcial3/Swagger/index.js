@@ -37,7 +37,6 @@ const swaggerOptions = {
 
 /**
  * @swagger
- * 
  * components:
  *   schemas:
  *     usuario: 
@@ -54,7 +53,18 @@ const swaggerOptions = {
  *         Edad:
  *           type: int
  *           description: Edad del usuario   
- *           example: 24 
+ *           example: 24
+ *     patch: 
+ *       type: object
+ *       properties: 
+ *         Usuario:
+ *           type: string
+ *           description: Nombre del usuario
+ *           example: Eleazar    
+ *         Edad:
+ *           type: int
+ *           description: Edad del usuario   
+ *           example: 24
  */
 
 
@@ -69,6 +79,10 @@ const swaggerOptions = {
  *    responses:
  *      200:
  *        description: Regresa un Json con todos los usuarios registrados.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/usuario'
  */
 app.get('/usuario',async(req,res)=>{
   const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
@@ -79,7 +93,7 @@ app.get('/usuario',async(req,res)=>{
 
 /**
  * @swagger
- * /id/:id:
+ * /usuario/{id}:
  *  get:
  *    tags:
  *      - usuario
@@ -96,10 +110,14 @@ app.get('/usuario',async(req,res)=>{
  *    responses:
  *      200:
  *        description: Regresa un Json con del usuario en especifico del cual se le solicito su ID.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/usuario'
  *      400:
  *        description: No se encontro usuario.
  */
-app.get('/id/:id',async(req,res)=>{
+app.get('/usuario/:id',async(req,res)=>{
 
     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
     const [rows, fields] = await connection.execute('SELECT * FROM mundo WHERE id = ?',[req.params.id]);
@@ -113,7 +131,7 @@ app.get('/id/:id',async(req,res)=>{
 
   /**
  * @swagger
- * /id:
+ * /usuario:
  *   post:
  *     tags:
  *       - usuario
@@ -122,14 +140,14 @@ app.get('/id/:id',async(req,res)=>{
  *     requestBody:
  *       description: Crea un nuevo usuario
  *       content:
- *           application/json:
- *             schema:
+ *         application/json:
+ *           schema:
  *               $ref: '#/components/schemas/usuario'
  *     responses:
  *       200:
  *         description: Insercion realizada con exito
  */
-app.post('/id',async(req,res)=>{
+app.post('/usuario',async(req,res)=>{
     let sentenciaSql = `insert into mundo values(${req.body.Id},'${req.body.Usuario}','${req.body.Edad}')`;
     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
     const [rows, fields] = await connection.execute(sentenciaSql);
@@ -142,7 +160,7 @@ app.post('/id',async(req,res)=>{
 
 /**
  * @swagger
- * /id/id:
+ * /usuario/{id}:
  *   delete:
  *     tags:
  *       - usuario
@@ -154,44 +172,56 @@ app.post('/id',async(req,res)=>{
  *         description: ID del usuario a ELIMINAR
  *         required: true
  *         schema:
- *          type: integer
- *          format: int64  
+ *           type: integer
+ *           format: int64
  *     responses:
  *       200:
- *         description: Registro eliminado.
+ *         description: El registro se elimino correctamente.
  */
 
-app.delete('/id/:id',async(req,res)=>{
+app.delete('/usuario/:id',async(req,res)=>{
 
     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
     const [rows, fields] = await connection.execute('DELETE FROM mundo WHERE Id = ? ',[req.params.id]);
 
-    res.json(rows)
+    //res.json(rows)
     if(rows.affectedRows == 1){
-        res.json({status:"Registro eliminado"});
+        res.status(200).send("El registro se elimino correctamente.");
     }
 })
 
 /**
  * @swagger
- * /id/:id:
- *  patch:
- *    tags:
- *      - usuario
- *    summary: Actualizar usuario
- *    description: Petición Patch a la ruta de Usuarios
- *    requestBody:
+ * /usuario/{id}:
+ *   patch:
+ *     tags:
+ *       - usuario
+ *     summary: Actualizar usuario
+ *     description: Petición Patch a la ruta de Usuarios
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID del usuario que desea actualizar
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *     requestBody:
  *       description: Crea un nuevo usuario
  *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/patch'
+ *     responses:
+ *       200:
+ *         description: UPDATE realizada con exito.
+ *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/usuario'
- *       required: true
- *    responses:
- *      200:
- *        description: UPDATE realizada con exito.
+ *               $ref: '#/components/schemas/patch'
  */
-app.patch('/id/:id',async(req,res)=>{
+
+app.patch('/usuario/:id',async(req,res)=>{
 
     const connection = await mysql.createConnection({host:'localhost', user: 'root', database: 'world'});
     const [rows, fields] = await connection.execute(`UPDATE mundo SET Usuario = '${req.body.Usuario}', Edad = ${req.body.Edad} WHERE Id = ? `,[req.params.id]);
