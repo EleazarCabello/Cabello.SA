@@ -17,22 +17,24 @@
     <button id="btnAxios">axios</button>
 
     <img id="imagen" style="display: block;">
-    
+    <img id="imagen2" style="display: block;">
     <script>
 
+    document.getElementById('imagen2').src = "https://i.redd.it/ymham2lcfk261.jpg"
+
         document.getElementById('btnFetch').addEventListener('click',()=>{
-            fetch('https://fakestoreapi.com/products/10')
+            fetch('https://fakestoreapi.com/products/1')
                 .then((res)=>res.json())
                 .then((data)=> {
                     console.log(data)
-                    document.getElementById('imagen').src=data.image
+                    document.getElementById('imagen2').src=data.image
                 })
         })
 
         document.getElementById('btnAsyncAwait').addEventListener('click',async()=>{
-            let res= await  fetch('https://fakestoreapi.com/products/11')
+            let res= await  fetch('https://api.waifu.im/search/')
             let data = await res.json()
-            document.getElementById('imagen').src=data.image
+            document.getElementById('imagen').src=data.images[0].url
 
         })
 
@@ -61,9 +63,10 @@
         })
 
         document.getElementById('btnAxios').addEventListener('click',()=>{
-            axios.get('https://fakestoreapi.com/products/14')
+            axios.get('https://fakestoreapi.com/products/2')
             .then(res=>{
-                document.getElementById('imagen').src=res.data.image
+                console.log(res.data)
+                document.getElementById('imagen').src =res.data.image
             })
         })
     </script>
