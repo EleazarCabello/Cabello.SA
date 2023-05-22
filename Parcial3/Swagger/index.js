@@ -4,10 +4,11 @@ const app = express();
 const cors = require('cors')
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const path = require('path');
 const fs = require('fs');
 const { SwaggerTheme } = require('swagger-themes');
 const redoc = require('redoc-express');
+const path = require('path');
+
 
 //Thema swagger json
 const theme = new SwaggerTheme('v3');
@@ -21,7 +22,6 @@ let ContenidoReadme = fs.readFileSync(path.join(__dirname)+'/README.md',{encodin
 let apidef_string = fs.readFileSync(path.join(__dirname)+'/APIdef.json',{encoding:'utf8',flag:'r'})
 let apidef_objeto = JSON.parse(apidef_string)
 apidef_objeto.info.description=ContenidoReadme;
-//console.log(ContenidoReadme)
 
 let redocTheme_string = fs.readFileSync(path.join(__dirname)+'/APIdef.json',{encoding:'utf8',flag:'r'})
 let redocTheme_objeto = JSON.parse(apidef_string)
