@@ -1,0 +1,11 @@
+{
+"openapi": "3.0.0",
+"info": { 
+    "title": "API Genshin Impact",
+    "version": "1.0.0",
+    "Descripcion": "ContenidoReadme" 
+    },
+"servers":[{"url": "https://proyectoapigenshin-production.up.railway.app"}],
+"tags": [{"name":"Personajes","description":"Personajes jugables de Genshin Impact"}] 
+}
+
