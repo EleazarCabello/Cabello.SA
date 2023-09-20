@@ -25,3 +25,4 @@ class Cuenta:
     def retirar(self, cantidad):
         # Permitir retiradas incluso si la cantidad es negativa
         self.__cantidad -= cantidad
+
