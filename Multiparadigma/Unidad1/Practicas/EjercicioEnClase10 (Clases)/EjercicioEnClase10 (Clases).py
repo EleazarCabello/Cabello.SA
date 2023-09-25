@@ -4,10 +4,13 @@
 # Los setters y getters para cada uno de los atributos. El atributo no se puede modificar directamente, sólo ingresando o retirando dinero.
 # mostrar(): Muestra los datos de la cuenta.
 # ingresar(cantidad): se ingresa una cantidad a la cuenta, si la cantidad introducida es negativa, no se hará nada.
-# retirar(cantidad): se retira una cantidad a la cuenta. La cuenta puede estar en números rojos.
+# retirar(cantidad): se retira una cantidad a la cuenta. 
+# La cuenta puede estar en números rojos.
 
 
- #Definir ahora una "Cuenta Joven", crear una nueva clase CuantaJoven que deriva de la anterior. Cuando se crea esta nueva clase, además del titular y la cantidad se debe guardar una bonificación que estará expresada en tanto por ciento.Construye los siguientes métodos para la clase:
+ #Definir ahora una "Cuenta Joven", crear una nueva clase CuantaJoven que deriva de la anterior. Cuando se crea esta nueva clase, además 
+ # del titular y la cantidad se debe guardar una bonificación que estará expresada en tanto por ciento.Construye los siguientes métodos
+ # para la clase:
 
 # Un constructor.
 # Los setters y getters para el nuevo atributo.
@@ -15,3 +18,4 @@
 # Además la retirada de dinero sólo se podrá hacer si el titular es válido.
 # El método mostrar() debe devolver el mensaje de "Cuenta Joven" y la bonificación de la cuenta.
 # Piensa los métodos heredados de la clase madre que hay que reescribir.
+
